@@ -1,0 +1,14 @@
+html body {
+    background-color: #ECECFC;
+}
+
+
+.container {
+    /* border: 1px solid gray; */
+    width: 350px;
+    height: 400px;
+    margin-top: 40px;
+    -webkit-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
+    -moz-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
+    box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
+}

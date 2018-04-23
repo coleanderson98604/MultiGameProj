@@ -1,0 +1,16 @@
+.navbar {
+    background-color: #ececfc;
+    padding: 5px;
+    /* border-bottom: 1px solid #b173e4; */
+}
+
+.navbar-brand {
+    color: #b173e4;
+    /* font-family: 'Monoton', cursive; */
+    font-size: 50px;
+    font-family: 'Raleway', sans-serif;
+}
+
+#logo {
+    height: 70px;
+}
