@@ -6,7 +6,9 @@ import { HttpService } from './http.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
+<<<<<<< HEAD
   title = 'app';
   User: String;
   Room: String;
@@ -36,3 +38,7 @@ export class AppComponent {
     this._http.sendMessage({user:this.User, room: this.Room, message: this.messageText});
   }
 }
+=======
+  
+}
+>>>>>>> master
