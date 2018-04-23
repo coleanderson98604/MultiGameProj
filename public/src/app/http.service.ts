@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-<<<<<<< HEAD
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs/Observable';
 
-=======
 import { HttpClient } from '@angular/common/http';
->>>>>>> master
 
 @Injectable()
 export class HttpService {
   user: any;
   constructor (private _http: HttpClient) { }
-
-<<<<<<< HEAD
-  constructor() { }
   //sets which route to connect to
   private socket = io('http://localhost:8000')
 
@@ -68,7 +62,6 @@ export class HttpService {
     });
     return observable
   }
-=======
   register(user){
     return this._http.post('/register', user);
   }
@@ -81,5 +74,4 @@ export class HttpService {
     this.user = username;
   }
   
->>>>>>> master
 }
