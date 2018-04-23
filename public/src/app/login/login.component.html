@@ -1,3 +1,14 @@
-<p>
-  login works!
-</p>
+<h1>Register</h1>
+<!--Prevent page refresh on submit, call appropriate function.-->
+<form (submit)="$event.preventDefault(); register()">
+  <label>Username:</label>
+  <input [(ngModel)]="user.username" name="username" type="text">
+  <button>Submit</button>
+</form>
+
+<h1>Login</h1>
+<form (submit)="$event.preventDefault(); submitLogin()">
+  <label>Username</label>
+  <input [(ngModel)]="login.username" name="login_username" type="text">
+  <button>Submit</button>
+</form>
