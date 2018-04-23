@@ -21,5 +21,29 @@ var server = app.listen(8000, function(){
 
 var io = require('socket.io').listen(server);
 io.sockets.on('connect', function(socket) {
+    console.log('new connection made.')
+    socket.on('join', function(data){
+        //joining, .join specifies a specific room for the user to join
+        socket.join(data.room)
+        //test info on server side
+        console.log(`${data.user} joined the room: ${data.room}`)
+        //broadcast to everyone except the person who is joining, .to specifies which room to broadcast too
+        socket.broadcast.to(data.room).emit('new user joined', {user: data.user, message:'has joined this room.'});
+    });
 
+    socket.on('leave', function(data){
+
+
+        console.log(`${data.user} left the room: ${data.room}`)
+        //broadcast to everyone except the person who is leaving, .to specifies which room to broadcast too
+        socket.broadcast.to(data.room).emit('left room', {user: data.user, message:'has left this room.'});
+        //leave the room
+        socket.leave(data.room)
+    });
+
+    //socket for setting the messages from the individual user
+    socket.on('message', function(data){
+        //sends message to all of the people in that room
+        io.in(data.room).emit('new message', {user: data.user, message: data.message});
+    })
 });
