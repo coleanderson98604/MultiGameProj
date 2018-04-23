@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "MultiGame",
   "version": "1.0.0",
@@ -19,3 +20,28 @@
     "socket.io": "^2.1.0"
   }
 }
+=======
+{
+  "name": "MultiGame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "express-socket.io-session": "^1.3.3",
+    "socket.io": "^2.1.0",
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^5.0.14"
+  }
+}
+>>>>>>> cf75b5fd5bd22a368b1ca748db0b6078608e83a1
