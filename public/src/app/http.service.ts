@@ -35,6 +35,7 @@ export class HttpService {
   }
   leaveRoom(data){
     this.socket.emit('leave',data)
+    return "left success"
   }
   userLeftRoom(){
     // creating an observable
