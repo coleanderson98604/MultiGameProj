@@ -1,0 +1,13 @@
+.container-fluid {
+    height: 1000px;
+}
+
+.container {
+    padding: 20px;
+    width: 75%;
+    height: 800px;
+    margin-top: 15%;
+    border-radius: 5px;
+    background-color: #ececfc;
+    position: relative;
+}
