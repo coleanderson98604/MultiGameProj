@@ -1,14 +1,26 @@
-html body {
-    background-color: #ECECFC;
+.container-fluid {
+    height: 700px;
 }
-
 
 .container {
     /* border: 1px solid gray; */
+    padding: 15px;
     width: 350px;
-    height: 400px;
-    margin-top: 40px;
-    -webkit-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
+    height: 360px;
+    margin-top: 20%;
+    border-radius: 10px;
+    /* -webkit-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
     -moz-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
-    box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
+    box-shadow: 10px 10px 11px 1px rgba(187,187,201,1); */
+    background-color: #ececfc;
+    position: relative;
 }
+
+h1 {
+    color: #292f36;
+}
+/* .btn {
+    display: inline-block;
+    position: absolute;
+    right: 25px;
+} */
