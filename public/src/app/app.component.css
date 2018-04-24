@@ -18,6 +18,7 @@
 
 .navbar-nav {
     justify-content: right;
+    float: right;
 }
 
 .navbar-brand {
