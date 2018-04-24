@@ -18,7 +18,26 @@ var UserSchema = new mongoose.Schema({
         required: [true, "You must enter a username."],
         minlength: [4, "Username must be at least 4 characters."],
         unique: true
+    },
+    password: {
+        type: String,
+        required: [true, "You must enter a password."],
+        minlength: [8, "Password must be at least 8 characters."],
     }
+});
+
+UserSchema.pre('save', function(next){
+    console.log("Pre reached.")
+    let that = this;
+    bcrypt.hash(this.password,10,function(err,hash){
+        if(err){
+            console.log("Error generating hash.");
+            next();
+        } else {
+            that.password = hash;
+            next();
+        }
+    });
 });
 
 var User = mongoose.model('User', UserSchema);
@@ -44,9 +63,24 @@ app.post('/login', function(req,res){
             res.json({succeeded:false,status:err});
         } else {
             if (!user) {
-                res.json({succeeded:false,status:"User not found."});
+                res.json({succeeded:false,status:"Invalid user data."});
             } else {
-                res.json({succeeded:true,status:user});
+                bcrypt.compare(req.body.password,user.password,function(err,same){
+                    if(err){
+                        res.json({succeeded:false,status:"Server error."});
+                    } else {
+                        if(!same){
+                            res.json({succeeded:false,status:"Invalid user data."});
+                        } else {
+                            res.json({succeeded:true,status:"All clear."});
+                        }
+                    }
+                });
+                // if (!bcrypt.compare(req.body)) {
+                //     res.json({succeeded:false,status:"Invalid user data."})
+                // } else {
+                //     res.json({succeeded:true,status:user});
+                // }
             }
         }
     });
