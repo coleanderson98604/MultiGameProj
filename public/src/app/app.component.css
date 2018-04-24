@@ -2,10 +2,26 @@
     background-color: #ececfc;
     padding: 5px;
     /* border-bottom: 1px solid #b173e4; */
+    padding-left: 5%;
+    height: 85px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid #647486;
+    z-index: +1;
+}
+
+#navbarSupportedContent {
+    width: 70%;
+    /* margin-left: 670px; */
+}
+
+.navbar-nav {
+    justify-content: right;
 }
 
 .navbar-brand {
-    color: #b173e4;
+    color: #292f36;
     /* font-family: 'Monoton', cursive; */
     font-size: 50px;
     font-family: 'Raleway', sans-serif;
