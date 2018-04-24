@@ -44,9 +44,9 @@ export class MainComponent implements OnInit {
     this._http.listOfRooms().subscribe(data => {
       this.availableRooms = data;
       let temp = this.availableRooms;
-      for(let user in this.ListOfUsers){
-        console.log(user)
-      }
+      // for(let user in this.ListOfUsers){
+      //   console.log(user)
+      // }
     });
   }
 }

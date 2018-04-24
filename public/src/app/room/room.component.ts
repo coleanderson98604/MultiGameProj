@@ -30,10 +30,11 @@ export class RoomComponent implements OnInit {
     this._route.params.subscribe((params: Params) => this.Room = params['RoomName']);
   }
   leave(){
-    this._http.leaveRoom({user:this.User, room: this.User});
-    this._router.navigate(['main'])
+    this._http.leaveRoom({user:this.User, room: this.Room});
+    this._router.navigate(['main']);
   }
   sendMessage(){
+    console.log(this.Room)
     this._http.sendMessage({user:this.User, room: this.Room, message: this.messageText});
     this.messageText = "";
   }

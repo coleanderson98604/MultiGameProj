@@ -110,5 +110,5 @@ io.sockets.on('connect', function(socket) {
     socket.on('message', function(data){
         //sends message to all of the people in that room
         io.in(data.room).emit('new message', {user: data.user, message: data.message});
-    });
+    })
 });
