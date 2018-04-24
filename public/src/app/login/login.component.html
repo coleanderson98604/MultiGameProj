@@ -1,22 +1,38 @@
 <div class="container-fluid">
   <div class="container">
-    <h1>Register</h1>
-    <!--Prevent page refresh on submit, call appropriate function.-->
-    <form (submit)="$event.preventDefault(); register()">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input [(ngModel)]="user.username" name="username" type="text">
-      </div>
-      <button class="btn btn-light">Submit</button>
-    </form>
+    <div class="reg">
+      <h1>Register</h1>
+      <!--Prevent page refresh on submit, call appropriate function.-->
+      <form (submit)="$event.preventDefault(); register()">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input [(ngModel)]="user.username" name="username" type="text">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input [(ngModel)]="user.password" name="password" type="password">
+        </div>
+        <div class="form-group">
+          <label for="password_confirm">Confirm Password:</label>
+          <input [(ngModel)]="user.password_confirm" name="password_confirm" type="password">
+        </div>
+        <button class="btn btn-outline-primary btn-lg btn-block">Submit</button>
+      </form>
+    </div>
 
-    <h1>Login</h1>
-    <form (submit)="$event.preventDefault(); submitLogin()">
-      <div class="form-group">
-        <label for="login_username">Username:</label>
-        <input [(ngModel)]="login.username" name="login_username" type="text">
-      </div>
-      <button class="btn btn-light">Submit</button>
-    </form>
+    <div class="login">
+      <h1>Login</h1>
+      <form (submit)="$event.preventDefault(); submitLogin()">
+        <div class="form-group">
+          <label for="login_username">Username:</label>
+          <input [(ngModel)]="login.username" name="login_username" type="text">
+        </div>
+        <div class="form-group">
+          <label for="login_password">Password:</label>
+          <input [(ngModel)]="login.password" name="login_password" type="password">
+        </div>
+        <button class="btn btn-outline-primary btn-lg btn-block">Submit</button>
+      </form>
+    </div>
   </div>
 </div>
