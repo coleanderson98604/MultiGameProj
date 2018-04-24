@@ -1,14 +1,14 @@
 .container-fluid {
-    height: 700px;
+    height: 600px;
 }
 
 .container {
     /* border: 1px solid gray; */
-    padding: 15px;
-    width: 350px;
-    height: 360px;
-    margin-top: 20%;
-    border-radius: 10px;
+    padding: 20px;
+    width: 550px;
+    height: 400px;
+    margin-top: 15%;
+    border-radius: 5px;
     /* -webkit-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
     -moz-box-shadow: 10px 10px 11px 1px rgba(187,187,201,1);
     box-shadow: 10px 10px 11px 1px rgba(187,187,201,1); */
@@ -16,11 +16,20 @@
     position: relative;
 }
 
+.reg {
+    display: inline-block;
+    width: 230px;
+    position: absolute;
+    left: 20px;
+}
+
+.login {
+    display: inline-block;
+    width: 230px;
+    position: absolute;
+    right: 20px;
+}
+
 h1 {
     color: #292f36;
 }
-/* .btn {
-    display: inline-block;
-    position: absolute;
-    right: 25px;
-} */
