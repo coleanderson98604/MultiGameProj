@@ -1,13 +1,12 @@
 <div class="container-fluid">
   <div class="container">
-    <h1>Welcome {{User}}</h1>
+    <p>Welcome, {{User}}</p>
+    <h1>Rooms</h1>
     <div style="text-align:center">
       <div class="row">
         <div class="col-sm-5">
           <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" [(ngModel)]="User" class="form-control" placeholder="Enter Username">
-            <label for="room">Room</label>
+            <label for="room">Room Na</label>
             <input type="text" [(ngModel)]="Room" class="form-control" placeholder="Enter Room">
             <button type="button" class="btn btn-primary" (click)="join()">Join</button>
             <button type="button" class="btn btn-primary" (click)="leave()">leave</button>

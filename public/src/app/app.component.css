@@ -2,7 +2,7 @@
     background-color: #ececfc;
     padding: 5px;
     /* border-bottom: 1px solid #b173e4; */
-    padding-left: 5%;
+    padding-left: 2%;
     height: 85px;
     position: fixed;
     width: 100%;
@@ -12,7 +12,7 @@
 }
 
 #navbarSupportedContent {
-    width: 70%;
+    width: 60%;
     /* margin-left: 670px; */
 }
 
@@ -21,7 +21,7 @@
 }
 
 .navbar-brand {
-    color: #292f36;
+    color: #9e54b4;
     /* font-family: 'Monoton', cursive; */
     font-size: 50px;
     font-family: 'Raleway', sans-serif;
