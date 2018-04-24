@@ -10,12 +10,14 @@ import { HttpService } from './http.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
+import { RoomComponent } from './room/room.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    RoomComponent
   ],
   imports: [
     BrowserModule,
