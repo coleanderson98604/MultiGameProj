@@ -34,7 +34,6 @@ export class RoomComponent implements OnInit {
     this._router.navigate(['main']);
   }
   sendMessage(){
-    console.log(this.Room)
     this._http.sendMessage({user:this.User, room: this.Room, message: this.messageText});
     this.messageText = "";
   }

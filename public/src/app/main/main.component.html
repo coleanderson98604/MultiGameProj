@@ -7,10 +7,16 @@
             <div>
                 <label for="room">Room</label>
                 <input type="text" [(ngModel)]="Room" class="form-control" placeholder="Enter Room">
-                <button type="button" class="btn btn-primary" (click)="joinBySearch()">Join</button>
             </div>
         </div>
         </div>
     </div>
     <button type="button" class="btn btn-primary" (click)="join(User)">New Room</button>
+    <div>
+        <input [(ngModel)]="data" type="text"/>
+        <div *ngFor="let room of keys">
+            <h4>Room name: {{room}} Number of users: {{OpenRooms[room].length}}</h4>
+            <button type="button" class="btn btn-primary" (click)="joinByClick(room)">Join</button>
+        </div>
+    </div>
 </div>
