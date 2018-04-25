@@ -44,6 +44,18 @@ var User = mongoose.model('User', UserSchema);
 
 var sharesession = require("express-socket.io-session");
 
+//Get Users
+app.get('/users', function(req,res){
+    User.find({},function(err,user){
+        if(err){
+            res.json({succeeded: false, status: err});
+        }
+        else {
+            res.json({data: user});
+        }
+    })
+})
+
 //Basic registration route.
 app.post('/register', function(req,res){
     User.create(req.body, function(err,user){
