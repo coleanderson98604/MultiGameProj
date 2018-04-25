@@ -4,21 +4,22 @@
 #foreground {
     padding: 20px;
     width: 100%;
-    height: 55%;
-    margin-top: 15%;
+    height: 80%;
+    margin-top: 10%;
     /* border-radius: 5px; */
     /* #ececfc */
-    background-color: #ececfc83;
+    background-color: #ececfc27;
     position: relative;
 }
 
 
 .dialog-window {
     height: 69%;
+    padding: 10px;
     /* border: 1px solid grey; */
     overflow: scroll;
     border: 1px solid rgb(129, 129, 129);
-    background-color: #ececfc;
+    background-color: white;
 }
 
 #leave {
@@ -27,6 +28,11 @@
 
 h2 {
     display: inline-block;
+    color: #ececfc;
+}
+
+p {
+    color: #ececfc;
 }
 
 #message_input {
@@ -44,4 +50,9 @@ h2 {
 #message_input button {
     /* display: inline-block; */
     float: right;
+}
+
+#input {
+    border-radius: 0px;
+    border: 1px solid rgb(129, 129, 129);
 }

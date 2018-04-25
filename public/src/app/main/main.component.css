@@ -5,11 +5,11 @@
 #foreground {
     padding: 20px;
     width: 100%;
-    height: 55%;
-    margin-top: 15%;
+    height: 80%;
+    margin-top: 10%;
     /* border-radius: 5px; */
     /* #ececfc */
-    background-color: #ececfc;
+    background-color: #ececfc27;
     position: relative;
 }
 #ececfc
@@ -18,10 +18,19 @@
     width: 100%;
 }
 
-.room_header h1 {
+.room_header h2 {
     display: inline-block;
 }
 .room_header button {
     display: inline-block;
     float: right;
+}
+
+h2 {
+    display: inline-block;
+    color: #ececfc;
+}
+
+p {
+    color: #ececfc;
 }
