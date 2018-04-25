@@ -1,0 +1,47 @@
+#background {
+    height: 800px;
+}
+#foreground {
+    padding: 20px;
+    width: 100%;
+    height: 55%;
+    margin-top: 15%;
+    /* border-radius: 5px; */
+    /* #ececfc */
+    background-color: #ececfc83;
+    position: relative;
+}
+
+
+.dialog-window {
+    height: 69%;
+    /* border: 1px solid grey; */
+    overflow: scroll;
+    border: 1px solid rgb(129, 129, 129);
+    background-color: #ececfc;
+}
+
+#leave {
+    float: right;
+}
+
+h2 {
+    display: inline-block;
+}
+
+#message_input {
+    width: 97%;
+    position: absolute;
+    bottom: 3%;
+}
+
+#message_input input {
+    display: inline-block;
+    width: 90%;
+    vertical-align: bottom;
+}
+
+#message_input button {
+    /* display: inline-block; */
+    float: right;
+}

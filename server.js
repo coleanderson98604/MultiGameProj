@@ -18,16 +18,31 @@ var UserSchema = new mongoose.Schema({
         required: [true, "You must enter a username."],
         minlength: [4, "Username must be at least 4 characters."],
         unique: true
+    },
+    password: {
+        type: String,
+        required: [true, "You must enter a password."],
+        minlength: [8, "Password must be at least 8 characters."],
     }
+});
+
+UserSchema.pre('save', function(next){
+    console.log("Pre reached.")
+    let that = this;
+    bcrypt.hash(this.password,10,function(err,hash){
+        if(err){
+            console.log("Error generating hash.");
+            next();
+        } else {
+            that.password = hash;
+            next();
+        }
+    });
 });
 
 var User = mongoose.model('User', UserSchema);
 
 var sharesession = require("express-socket.io-session");
-
-// testing user array on server side
-var userInRoom = [];
-
 
 //Basic registration route.
 app.post('/register', function(req,res){
@@ -48,21 +63,25 @@ app.post('/login', function(req,res){
             res.json({succeeded:false,status:err});
         } else {
             if (!user) {
-                res.json({succeeded:false,status:"User not found."});
+                res.json({succeeded:false,status:"Invalid user data."});
             } else {
-                res.json({succeeded:true,status:user});
+                bcrypt.compare(req.body.password,user.password,function(err,same){
+                    if(err){
+                        res.json({succeeded:false,status:"Server error."});
+                    } else {
+                        if(!same){
+                            res.json({succeeded:false,status:"Invalid user data."});
+                        } else {
+                            res.json({succeeded:true,status:"All clear."});
+                        }
+                    }
+                });
+                // if (!bcrypt.compare(req.body)) {
+                //     res.json({succeeded:false,status:"Invalid user data."})
+                // } else {
+                //     res.json({succeeded:true,status:user});
+                // }
             }
-        }
-    });
-});
-
-app.get('/users', function(req,res){
-    User.find({},function(err,user){
-        if(err){
-            res.json({succeeded:false,status:err});
-        }
-        else {
-            res.json(user);
         }
     });
 });
@@ -78,27 +97,18 @@ var server = app.listen(8000, function(){
 var io = require('socket.io').listen(server);
 io.sockets.on('connect', function(socket) {
     console.log('new connection made.')
-
-    //emit a list of rooms
-    socket.on('roomCheck',function(){
-        socket.emit('rooms', io.nsps['/'].adapter.rooms);
-    });
-
     socket.on('join', function(data){
         //joining, .join specifies a specific room for the user to join
         socket.join(data.room)
         //test info on server side
         console.log(`${data.user} joined the room: ${data.room}`)
-
-        if(!userInRoom.includes(data.user)){
-            userInRoom.push(data.user);
-            console.log(userInRoom)
-        }
         //broadcast to everyone except the person who is joining, .to specifies which room to broadcast too
         socket.broadcast.to(data.room).emit('new user joined', {user: data.user, message:'has joined this room.'});
     });
 
     socket.on('leave', function(data){
+
+
         console.log(`${data.user} left the room: ${data.room}`)
         //broadcast to everyone except the person who is leaving, .to specifies which room to broadcast too
         socket.broadcast.to(data.room).emit('left room', {user: data.user, message:'has left this room.'});

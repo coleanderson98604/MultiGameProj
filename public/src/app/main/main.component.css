@@ -1,0 +1,27 @@
+#background {
+    height: 800px;
+}
+
+#foreground {
+    padding: 20px;
+    width: 100%;
+    height: 55%;
+    margin-top: 15%;
+    /* border-radius: 5px; */
+    /* #ececfc */
+    background-color: #ececfc;
+    position: relative;
+}
+#ececfc
+
+.room_header {
+    width: 100%;
+}
+
+.room_header h1 {
+    display: inline-block;
+}
+.room_header button {
+    display: inline-block;
+    float: right;
+}
