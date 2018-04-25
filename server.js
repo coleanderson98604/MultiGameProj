@@ -109,6 +109,11 @@ var server = app.listen(8000, function(){
 var io = require('socket.io').listen(server);
 io.sockets.on('connect', function(socket) {
     console.log('new connection made.')
+
+    socket.on('roomCheck', function(){
+        socket.emit('rooms', io.sockets.adapter.rooms);
+    })
+
     socket.on('join', function(data){
         //joining, .join specifies a specific room for the user to join
         socket.join(data.room)
@@ -119,8 +124,6 @@ io.sockets.on('connect', function(socket) {
     });
 
     socket.on('leave', function(data){
-
-
         console.log(`${data.user} left the room: ${data.room}`)
         //broadcast to everyone except the person who is leaving, .to specifies which room to broadcast too
         socket.broadcast.to(data.room).emit('left room', {user: data.user, message:'has left this room.'});
