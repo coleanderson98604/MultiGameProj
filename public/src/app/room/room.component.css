@@ -19,7 +19,8 @@
     /* border: 1px solid grey; */
     overflow: scroll;
     border: 1px solid rgb(129, 129, 129);
-    background-color: white;
+    background-color: #ececfc;
+    padding: 10px;
 }
 
 #leave {
@@ -43,8 +44,10 @@ p {
 
 #message_input input {
     display: inline-block;
-    width: 90%;
+    width: 95%;
     vertical-align: bottom;
+    border-radius: 0;
+    background-color: #ececfc;
 }
 
 #message_input button {
