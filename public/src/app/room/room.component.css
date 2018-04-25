@@ -1,19 +1,61 @@
-.container-fluid {
-    height: 1000px;
-}
-
-.container {
-    padding: 20px;
-    width: 75%;
+#background {
     height: 800px;
-    margin-top: 15%;
-    border-radius: 5px;
-    background-color: #ececfc;
+}
+#foreground {
+    padding: 20px;
+    width: 100%;
+    height: 80%;
+    margin-top: 10%;
+    /* border-radius: 5px; */
+    /* #ececfc */
+    background-color: #ececfc27;
     position: relative;
 }
 
+
 .dialog-window {
-    height: 20%;
-    border: 1px solid grey;
+    height: 69%;
+    padding: 10px;
+    /* border: 1px solid grey; */
     overflow: scroll;
+    border: 1px solid rgb(129, 129, 129);
+    background-color: #ececfc;
+    padding: 10px;
+}
+
+#leave {
+    float: right;
+}
+
+h2 {
+    display: inline-block;
+    color: #ececfc;
+}
+
+p {
+    color: #ececfc;
+}
+
+#message_input {
+    width: 97%;
+    position: absolute;
+    bottom: 3%;
+}
+
+#message_input input {
+    display: inline-block;
+    width: 95%;
+    vertical-align: bottom;
+    border-radius: 0;
+    background-color: #ececfc;
+}
+
+#message_input button {
+    /* display: inline-block; */
+    float: right;
+}
+
+#input {
+    border-radius: 0px;
+    border: 1px solid rgb(129, 129, 129);
 }

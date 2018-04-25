@@ -35,6 +35,7 @@ export class RoomComponent implements OnInit {
   }
   sendMessage(){
     this._http.sendMessage({user:this.User, room: this.Room, message: this.messageText});
+    console.log(this.messageText);
     this.messageText = "";
   }
 }

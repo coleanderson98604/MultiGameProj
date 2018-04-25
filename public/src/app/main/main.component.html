@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container-fluid">
   <div class="container">
     <h1>Welcome {{User}}</h1>
@@ -8,8 +9,19 @@
                 <label for="room">Room</label>
                 <input type="text" [(ngModel)]="Room" class="form-control" placeholder="Enter Room">
             </div>
+=======
+<div class="container-fluid" id="background">
+    <div class="container-fluid" id="foreground">
+        <p>Welcome, {{User}}</p>
+        <div class="room_header">
+            <h2>Rooms</h2>
+            <button type="button" class="btn btn-primary" (click)="join(User)">New Room</button>
+>>>>>>> master
         </div>
+        <div class="rooms_list">
+
         </div>
+<<<<<<< HEAD
     </div>
     <button type="button" class="btn btn-primary" (click)="join(User)">New Room</button>
     <div>
@@ -19,4 +31,7 @@
             <button type="button" class="btn btn-primary" (click)="joinByClick(room)">Join</button>
         </div>
     </div>
+=======
+    
+>>>>>>> master
 </div>
