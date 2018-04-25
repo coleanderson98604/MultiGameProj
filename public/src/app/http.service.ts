@@ -14,6 +14,7 @@ export class HttpService {
   //joinRoom function for initiating the socket call
   joinRoom(data){
     this.socket.emit('join',data);
+    console.log('here is the join data', data, this.user);
   }
   //userjoin fucntion for joining user
   newUserJoined(){
@@ -24,6 +25,9 @@ export class HttpService {
         //will pass the data when a user joins a room
         observer.next(data);
       });
+      //pushes user into the userInRoom array
+
+
       //if there is an error it will disconnect the user
       return () => {this.socket.disconnect();}
     });
@@ -31,6 +35,7 @@ export class HttpService {
   }
   leaveRoom(data){
     this.socket.emit('leave',data)
+    return "left success"
   }
   userLeftRoom(){
     // creating an observable
@@ -52,7 +57,7 @@ export class HttpService {
   newMessageRecieved(){
     // creating an observable
     let observable = new Observable<{user:String, message: String}>(observer=>{
-      // listens for the left room event
+      // listens for the new message event
       this.socket.on('new message', (data)=>{
         //will pass the data when a user joins a room
         observer.next(data);
@@ -60,8 +65,20 @@ export class HttpService {
       //if there is an error it will disconnect the user
       return () => {this.socket.disconnect();}
     });
+    return observable;
+  }
+
+  listOfRooms(){
+    this.socket.emit('roomCheck');
+    let observable = new Observable<{}>(observer => {
+      this.socket.on('rooms', (data)=>{
+        observer.next(data);
+      });
+      return () => {this.socket.disconnect();}
+    });
     return observable
   }
+
   register(user){
     return this._http.post('/register', user);
   }
@@ -73,5 +90,7 @@ export class HttpService {
   newSession(username){
     this.user = username;
   }
-  
+  getUsers(){
+    return this._http.get('/users');
+  }
 }

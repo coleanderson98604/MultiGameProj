@@ -11,3 +11,9 @@
     background-color: #ececfc;
     position: relative;
 }
+
+.dialog-window {
+    height: 20%;
+    border: 1px solid grey;
+    overflow: scroll;
+}
