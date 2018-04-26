@@ -1,37 +1,15 @@
-<<<<<<< HEAD
-<div class="container-fluid">
-  <div class="container">
-    <h1>Welcome {{User}}</h1>
-    <div class="row">
-        <div class="col-sm-5">
-        <div class="form-group">
-            <div>
-                <label for="room">Room</label>
-                <input type="text" [(ngModel)]="Room" class="form-control" placeholder="Enter Room">
-            </div>
-=======
 <div class="container-fluid" id="background">
     <div class="container-fluid" id="foreground">
         <p>Welcome, {{User}}</p>
         <div class="room_header">
             <h2>Rooms</h2>
             <button type="button" class="btn btn-primary" (click)="join(User)">New Room</button>
->>>>>>> master
         </div>
-        <div class="rooms_list">
-
-        </div>
-<<<<<<< HEAD
-    </div>
-    <button type="button" class="btn btn-primary" (click)="join(User)">New Room</button>
-    <div>
-        <input [(ngModel)]="data" type="text"/>
-        <div *ngFor="let room of keys">
-            <h4>Room name: {{room}} Number of users: {{OpenRooms[room].length}}</h4>
-            <button type="button" class="btn btn-primary" (click)="joinByClick(room)">Join</button>
+        <div class="row">
+            <div class="card col-3" *ngFor="let room of keys" [hidden]="OpenRooms[room].length >= 2">
+                <h4>Room: {{room}}</h4>
+                <button type="button" class="btn btn-primary" (click)="joinByClick(room)">Join</button>
+            </div>
         </div>
     </div>
-=======
-    
->>>>>>> master
 </div>

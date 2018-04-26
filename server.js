@@ -27,7 +27,6 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', function(next){
-    console.log("Pre reached.")
     let that = this;
     bcrypt.hash(this.password,10,function(err,hash){
         if(err){
@@ -69,7 +68,6 @@ app.post('/register', function(req,res){
 
 //Basic login route.
 app.post('/login', function(req,res){
-    console.log(req.body.username);
     User.findOne({username:req.body.username},function(err,user){
         if(err){
             res.json({succeeded:false,status:err});
@@ -109,19 +107,20 @@ var server = app.listen(8000, function(){
 var io = require('socket.io').listen(server);
 io.sockets.on('connect', function(socket) {
     console.log('new connection made.')
-
-    // socket.on('roomCheck', function(){
-    //     socket.emit('rooms', io.sockets.adapter.rooms);
-    // })
+    
+    socket.on('roomCheck', function(){
+        io.emit('rooms', io.sockets.adapter.rooms);
+    })
 
     socket.on('join', function(data){
         //joining, .join specifies a specific room for the user to join
         socket.join(data.room);
-        socket.emit('rooms', io.sockets.adapter.rooms);
         //test info on server side
         console.log(`${data.user} joined the room: ${data.room}`)
         //broadcast to everyone except the person who is joining, .to specifies which room to broadcast too
         socket.broadcast.to(data.room).emit('new user joined', {user: data.user, message:'has joined this room.'});
+        io.emit('rooms', io.sockets.adapter.rooms);
+        io.in(data.room).emit('new state', state)
     });
 
     socket.on('leave', function(data){
@@ -130,6 +129,7 @@ io.sockets.on('connect', function(socket) {
         socket.broadcast.to(data.room).emit('left room', {user: data.user, message:'has left this room.'});
         //leave the room
         socket.leave(data.room);
+        io.emit('rooms', io.sockets.adapter.rooms);
     });
 
     //socket for setting the messages from the individual user
@@ -138,4 +138,25 @@ io.sockets.on('connect', function(socket) {
         io.in(data.room).emit('new message', {user: data.user, message: data.message});
     });
 
+    socket.on('action', function(data){
+        if (data.action == "button1") {
+            state = {
+                onePushed: true,
+                twoPushed: false
+            }
+        } else if (data.action == "button2") {
+            state = {
+                onePushed: false,
+                twoPushed: true
+            }
+        }
+        io.in(data.room).emit('new state', state)
+    });
+
 });
+
+// define the starting game state (should be sent to each client on logging in to game.)
+var state = {
+    onePushed: true,
+    twoPushed: false
+}

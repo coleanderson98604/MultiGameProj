@@ -10,6 +10,10 @@
                 </div>
             </div>
         </div>
+        <div>
+            <button id="button1" (click)="buttonClick($event)" [disabled]="state.onePushed">Button 1</button>
+            <button id="button2" (click)="buttonClick($event)" [disabled]="state.twoPushed">Button 2</button>
+        </div>
         <div id="message_input">
             <form (ngSubmit)="sendMessage()">
                 <input id="input" type="text" class="form-control" [(ngModel)]="messageText" placeholder="Enter message" name="message-text">
