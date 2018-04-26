@@ -8,6 +8,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
+  //State of the "game"
+  state: any;
+  
   messageText: String;
   messageArray:Array<{user:String, message:String}> = [] //will contain the join event information
   User: String;
@@ -23,6 +26,11 @@ export class RoomComponent implements OnInit {
     this._http.userLeftRoom().subscribe(data => this.messageArray.push(data));
     // leaves an open connection to listen for any new messages
     this._http.newMessageRecieved().subscribe(data => this.messageArray.push(data));
+    //set up listener for game state.
+    this._http.getState().subscribe(state => { 
+      console.log(state);
+      this.state = state 
+    });
   }
 
   ngOnInit() {
@@ -38,4 +46,10 @@ export class RoomComponent implements OnInit {
     console.log(this.messageText);
     this.messageText = "";
   }
+
+  buttonClick(event){
+    // console.log(event.target.id);
+    this._http.sendAction({user: this.User, room: this.Room, action:event.target.id})
+  }
+
 }

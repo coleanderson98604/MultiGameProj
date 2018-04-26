@@ -5,8 +5,11 @@
             <h2>Rooms</h2>
             <button type="button" class="btn btn-primary" (click)="join(User)">New Room</button>
         </div>
-        <div class="rooms_list">
-
+        <div class="row">
+            <div class="card col-3" *ngFor="let room of keys" [hidden]="OpenRooms[room].length >= 2">
+                <h4>Room: {{room}}</h4>
+                <button type="button" class="btn btn-primary" (click)="joinByClick(room)">Join</button>
+            </div>
         </div>
-    
+    </div>
 </div>
