@@ -69,7 +69,6 @@ export class HttpService {
   }
 
   listOfRooms(){
-    this.socket.emit('roomCheck');
     let observable = new Observable<{}>(observer => {
       this.socket.on('rooms', (data)=>{
         observer.next(data);

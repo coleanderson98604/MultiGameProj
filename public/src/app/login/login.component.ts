@@ -11,7 +11,6 @@ export class LoginComponent implements OnInit {
   //user for new user, login for login attempt
   user: any;
   login: any;
-  confirmMismatch: Boolean = false;
   registered: Boolean = false;
   wrongLogin: Boolean = false;
 
@@ -31,13 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   register(form) {
-    //There's an Angular way to do this, but it's a bit complicated and would require refactoring. One consequence of the way I've done things is that form status don't reset properly on submission.
-    if (this.user.password !== this.user.password_confirm){
-      this.confirmMismatch = true;
-      return;
-    } else {
-      this.confirmMismatch = false;
-    }
     this._http.register(this.user).subscribe(data => {
       if(data['succeeded']){
         this.registered = true;

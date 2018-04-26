@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
 
@@ -7,15 +7,21 @@ import { Router } from '@angular/router';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
+
 export class MainComponent implements OnInit {
+  data: any;
   User: String;
   Room: String;
-  availableRooms;
-  ListOfUsers;
+  OpenRooms = {};
+  ListOfUsers = [];
+  eric = "eric";
+  keys = [];
   constructor(
     private _http: HttpService,
     private _router: Router
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
     this.User = this._http.user;
@@ -23,28 +29,36 @@ export class MainComponent implements OnInit {
     if (!this.User){
       this._router.navigate(['login']);
     }
-    this.Rooms();
-    let observable = this._http.getUsers();
-    observable.subscribe(data => {
-      console.log('list of users', data);
-      this.ListOfUsers = data;
-    });
+    this._http.listOfRooms().subscribe(rooms => {
+      this.data = rooms;
+    })
   }
   join(user){
     //calls the joinRoom function and passes in the user and room
     this._http.joinRoom({user:this.User, room: this.User});
-    this._http.listOfRooms().subscribe(data => console.log('here is the room data', data))
     this._router.navigate(['room/' + user])
   }
-  joinBySearch(){
-    this._http.joinRoom({user:this.User, room: this.Room});
-    this._router.navigate(['room/' + this.Room]);
+  joinByClick(RoomSelected){
+    this._http.joinRoom({user:this.User, room: RoomSelected});
+    this._router.navigate(['room/' + RoomSelected]);
   }
   Rooms(){
-    this._http.listOfRooms().subscribe(data => {
-      this.availableRooms = data;
-      let temp = this.availableRooms;
-      console.log("lets of rooms", temp)
+    this._http.listOfRooms().subscribe(rooms => {
+      let observable = this._http.getUsers();
+      observable.subscribe(data => {
+        for(let i=0; i< data['data'].length; i++){
+          this.ListOfUsers.push(data['data'][i].username);
+        }
+        for(let room in rooms){
+          if(this.ListOfUsers.includes(room)){
+            this.OpenRooms[room] = rooms[room];
+          }
+        }
+        for(let keys in this.OpenRooms){
+          this.keys.push(keys);
+        }
+      });
+      console.log(this.ListOfUsers,this.keys,this.OpenRooms);
     });
   }
 }
