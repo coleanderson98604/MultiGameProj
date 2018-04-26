@@ -11,10 +11,12 @@ export class HttpService {
   //sets which route to connect to
   private socket = io('http://localhost:8000')
 
+  checkRoom(){
+    this.socket.emit('roomCheck');
+  }
   //joinRoom function for initiating the socket call
   joinRoom(data){
     this.socket.emit('join',data);
-    console.log('here is the join data', data, this.user);
   }
   //userjoin fucntion for joining user
   newUserJoined(){
@@ -92,4 +94,19 @@ export class HttpService {
   getUsers(){
     return this._http.get('/users');
   }
+
+  sendAction(data){
+    this.socket.emit('action',data);
+  }
+
+  getState(){
+    let observable = new Observable<{}>(observer => {
+      this.socket.on('new state', (state)=>{
+        observer.next(state);
+      });
+      return () => {this.socket.disconnect();}
+    });
+    return observable
+  }
+
 }

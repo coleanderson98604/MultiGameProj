@@ -14,8 +14,8 @@ export class MainComponent implements OnInit {
   Room: String;
   OpenRooms = {};
   ListOfUsers = [];
-  eric = "eric";
   keys = [];
+
   constructor(
     private _http: HttpService,
     private _router: Router
@@ -29,9 +29,8 @@ export class MainComponent implements OnInit {
     if (!this.User){
       this._router.navigate(['login']);
     }
-    this._http.listOfRooms().subscribe(rooms => {
-      this.data = rooms;
-    })
+    this.Rooms();
+    this._http.checkRoom();
   }
   join(user){
     //calls the joinRoom function and passes in the user and room
@@ -43,10 +42,14 @@ export class MainComponent implements OnInit {
     this._router.navigate(['room/' + RoomSelected]);
   }
   Rooms(){
+    //Update.
     this._http.listOfRooms().subscribe(rooms => {
-      let observable = this._http.getUsers();
-      observable.subscribe(data => {
-        for(let i=0; i< data['data'].length; i++){
+      this._http.getUsers().subscribe(data => {
+        //Reset everything before adding new data.
+        this.OpenRooms = {};
+        this.ListOfUsers = [];
+        this.keys = [];
+        for(let i=0; i < data['data'].length; i++){
           this.ListOfUsers.push(data['data'][i].username);
         }
         for(let room in rooms){
@@ -58,7 +61,6 @@ export class MainComponent implements OnInit {
           this.keys.push(keys);
         }
       });
-      console.log(this.ListOfUsers,this.keys,this.OpenRooms);
     });
   }
 }
