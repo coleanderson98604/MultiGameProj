@@ -16,7 +16,7 @@ export class RoomComponent implements OnInit {
   User: String;
   Room: String;
   board: any;
-
+  winner: any;
   constructor(
     private _http: HttpService,
     private _router: Router,
@@ -36,6 +36,15 @@ export class RoomComponent implements OnInit {
     this._http.TTTstate().subscribe(state => {
       console.log("Received an emit of TTT State.")
       this.board = state;
+      console.log(state)
+      if(state['Winner'] == 'Tie'){
+        this.winner = state['Winner'];
+      }
+      else {
+        if(state['Winner']){
+          this.winner = state['Winner'];
+        }
+      }
     });
 
   }
@@ -43,6 +52,7 @@ export class RoomComponent implements OnInit {
   ngOnInit() {
     this.User = this._http.user;
     this._route.params.subscribe((params: Params) => this.Room = params['RoomName']);
+
   }
   leave(){
     this._http.leaveRoom({user:this.User, room: this.Room});
@@ -62,6 +72,9 @@ export class RoomComponent implements OnInit {
   buttonClick(event){
     console.log(event.target);
     this._http.sendAction({GameTitle: "Button", user: this.User, room: this.Room, action:event.target.id})
+  }
+  resetBoard(){
+    this._http.reset(this.Room);
   }
 
 }

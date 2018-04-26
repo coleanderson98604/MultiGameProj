@@ -23,11 +23,14 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "You must enter a password."],
         minlength: [8, "Password must be at least 8 characters."],
-    }
+    },
+    wins: {type: Number, default: 0},
+    played: {type: Number, default: 0}
 });
 
 UserSchema.pre('save', function(next){
     let that = this;
+    if(!that.isModified('password')) return next();
     bcrypt.hash(this.password,10,function(err,hash){
         if(err){
             console.log("Error generating hash.");
@@ -114,19 +117,16 @@ io.sockets.on('connect', function(socket) {
 
     socket.on('join', function(data){
         //joining, .join specifies a specific room for the user to join
-        // var that = this;
-        // this.board = {
-        //     1: "",
-        //     2: "",
-        //     4: "",
-        //     8: "",
-        //     16: "",
-        //     32: "",
-        //     64: "",
-        //     128: "",
-        //     256: ""
-        // }
         socket.join(data.room);
+        console.log(io.sockets.adapter.rooms[data.room]['length'])
+        if(io.sockets.adapter.rooms[data.room]['length'] == 1){
+            socket['player'] = 'X'
+            socket['playerName'] = data.user
+        }
+        else if(io.sockets.adapter.rooms[data.room]['length'] == 2){
+            socket['player'] = 'O'
+            socket['playerName'] = data.user
+        }
         if (!io.sockets.adapter.rooms[data.room]['board']) {
             io.sockets.adapter.rooms[data.room]['board'] = 
             {
@@ -138,7 +138,12 @@ io.sockets.on('connect', function(socket) {
                 32: "",
                 64: "",
                 128: "",
-                256: ""
+                256: "",
+                Turn: 'X',
+                Xscore: 0,
+                Oscore: 0,
+                moves: 0,
+                Winner: false
             }
         }
         var board = io.sockets.adapter.rooms[data.room]['board']
@@ -186,7 +191,86 @@ io.sockets.on('connect', function(socket) {
         }
         else if(data.GameTitle == "TTT"){
             var board = io.sockets.adapter.rooms[data.room]['board']
-            board[data.Tile] = "x";
+            console.log(data)
+            // if the board tile has a value greater than 0 then it is filled
+            if(board[data.Tile].length == 0){
+                board['moves'] += 1;
+                if(socket['player'] == board['Turn']){
+                    board[data.Tile] = socket['player'];
+                    if(board['Turn'] == 'X'){
+                        board['Xscore'] += data.Tile;
+                        board['Turn'] = 'O';
+                    }
+                    else if(board['Turn'] == 'O'){
+                        board['Oscore'] += data.Tile;
+                        board['Turn'] = 'X';
+                    }
+                }
+            }
+            //winning logic
+            if(board['moves'] == 9){
+                board['Winner'] = 'Tie';
+                User.findOne({username: socket['playerName']}, function(err, player){
+                    if(err){
+                        console.log('something went wrong')
+                    }
+                    else {
+                        console.log(player)
+                        player.play += 1
+                    }
+                });
+                board['Turn'] = false
+            }
+            if(winning.includes(board['Xscore'])){
+                board['Winner'] = socket['playerName']
+                User.findOne({username: socket['playerName']}, function(err, player){
+                    if(err){
+                        console.log('something went wrong')
+                    }
+                    else {
+                        console.log(player)
+                        player.wins += 1
+                        player.played += 1
+                    }
+                    player.save(function(err){
+                        if(err){
+                            console.log(err)
+                        }
+                    });
+                })
+                board['Turn'] = false;
+            }
+            if(winning.includes(board['Oscore'])){
+                board['Winner'] = socket['playerName']
+                User.findOne({username: socket['playerName']}, function(err, player){
+                    if(err){
+                        console.log('something went wrong')
+                    }
+                    else {
+                        player.wins += 1
+                        player.played += 1
+                    }
+                });
+                board['Turn'] = false;
+            }
+            socket.on('reset',function(data){
+                io.sockets.adapter.rooms[data]['board'] = {
+                    1: "",
+                    2: "",
+                    4: "",
+                    8: "",
+                    16: "",
+                    32: "",
+                    64: "",
+                    128: "",
+                    256: "",
+                    Turn: 'X',
+                    Xscore: 0,
+                    Oscore: 0,
+                    moves: 0,
+                    Winner: false
+                }
+            })
             io.in(data.room).emit('TTT state', board);}
     });
 });
@@ -197,3 +281,4 @@ var state = {
     twoPushed: false
 }
 // for tic tac toe
+var winning = [7,56,448,73,146,292,273,84];
