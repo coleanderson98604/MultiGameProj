@@ -11,13 +11,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { RoomComponent } from './room/room.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { GamesComponent } from './games/games.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    RoomComponent
+    RoomComponent,
+    ScoreboardComponent,
+    GamesComponent
   ],
   imports: [
     BrowserModule,

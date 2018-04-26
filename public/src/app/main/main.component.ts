@@ -15,14 +15,14 @@ export class MainComponent implements OnInit {
   OpenRooms = {};
   ListOfUsers = [];
   keys = [];
-
+  
   constructor(
     private _http: HttpService,
     private _router: Router
   ) {
-
+    
   }
-
+  
   ngOnInit() {
     this.User = this._http.user;
     //If no one is logged in, redirect back to login.
