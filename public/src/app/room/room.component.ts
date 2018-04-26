@@ -15,6 +15,8 @@ export class RoomComponent implements OnInit {
   messageArray:Array<{user:String, message:String}> = [] //will contain the join event information
   User: String;
   Room: String;
+  board: any;
+
   constructor(
     private _http: HttpService,
     private _router: Router,
@@ -29,8 +31,13 @@ export class RoomComponent implements OnInit {
     //set up listener for game state.
     this._http.getState().subscribe(state => { 
       console.log(state);
-      this.state = state 
+      this.state = state;
     });
+    this._http.TTTstate().subscribe(state => {
+      console.log("Received an emit of TTT State.")
+      this.board = state;
+    });
+
   }
 
   ngOnInit() {
@@ -47,9 +54,14 @@ export class RoomComponent implements OnInit {
     this.messageText = "";
   }
 
+  move(tile){
+    // this.board[tile]="X"
+    this._http.sendAction({GameTitle: "TTT", Tile: tile, room: this.Room});
+  }
+
   buttonClick(event){
-    // console.log(event.target.id);
-    this._http.sendAction({user: this.User, room: this.Room, action:event.target.id})
+    console.log(event.target);
+    this._http.sendAction({GameTitle: "Button", user: this.User, room: this.Room, action:event.target.id})
   }
 
 }

@@ -3,11 +3,33 @@
         <p>Welcome, {{ User }}</p>
         <h2>{{ Room }}</h2>
         <button *ngIf="!RoomJoin" type="button" class="btn btn-primary" (click)="leave()" id="leave">leave room</button>
-        <div class="dialog-window">
-            <div class="messages">
-                <div *ngFor="let item of messageArray" id="message">
-                <span><strong>{{item.user}}: </strong> {{item.message}}</span>
+        <div class="row">
+            <div class="dialog-window col-6">
+                <div class="messages">
+                    <div *ngFor="let item of messageArray" id="message">
+                    <span><strong>{{item.user}}: </strong> {{item.message}}</span>
+                    </div>
                 </div>
+            </div>
+            <div class="col-6 text-center">
+                <h1 style="padding-bottom: 10px">tic tac toe</h1>
+                <table>
+                    <tr>
+                        <td id="1" (click)="move(1)">{{board[1]}}</td>
+                        <td id="2" (click)="move(2)">{{board[2]}}</td>
+                        <td id="4" (click)="move(4)">{{board[4]}}</td>
+                    </tr>
+                    <tr>
+                        <td id="8" (click)="move(8)">{{board[8]}}</td>
+                        <td id="16" (click)="move(16)">{{board[16]}}</td>
+                        <td id="32" (click)="move(32)">{{board[32]}}</td>
+                    </tr>
+                    <tr>
+                        <td id="64" (click)="move(64)">{{board[64]}}</td>
+                        <td id="128" (click)="move(128)">{{board[128]}}</td>
+                        <td id="256" (click)="move(256)">{{board[256]}}</td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div>

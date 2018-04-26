@@ -114,13 +114,42 @@ io.sockets.on('connect', function(socket) {
 
     socket.on('join', function(data){
         //joining, .join specifies a specific room for the user to join
+        // var that = this;
+        // this.board = {
+        //     1: "",
+        //     2: "",
+        //     4: "",
+        //     8: "",
+        //     16: "",
+        //     32: "",
+        //     64: "",
+        //     128: "",
+        //     256: ""
+        // }
         socket.join(data.room);
+        if (!io.sockets.adapter.rooms[data.room]['board']) {
+            io.sockets.adapter.rooms[data.room]['board'] = 
+            {
+                1: "",
+                2: "",
+                4: "",
+                8: "",
+                16: "",
+                32: "",
+                64: "",
+                128: "",
+                256: ""
+            }
+        }
+        var board = io.sockets.adapter.rooms[data.room]['board']
+        console.log(io.sockets.adapter.rooms[data.room])
         //test info on server side
         console.log(`${data.user} joined the room: ${data.room}`)
         //broadcast to everyone except the person who is joining, .to specifies which room to broadcast too
         socket.broadcast.to(data.room).emit('new user joined', {user: data.user, message:'has joined this room.'});
         io.emit('rooms', io.sockets.adapter.rooms);
-        io.in(data.room).emit('new state', state)
+        io.in(data.room).emit('new state', state);
+        io.in(data.room).emit('TTT state', board);
     });
 
     socket.on('leave', function(data){
@@ -139,20 +168,27 @@ io.sockets.on('connect', function(socket) {
     });
 
     socket.on('action', function(data){
-        if (data.action == "button1") {
-            state = {
-                onePushed: true,
-                twoPushed: false
+        var that = this;
+        console.log('tic tac toe', data)
+        if(data.GameTitle == "Button"){
+            if (data.action == "button1") {
+                state = {
+                    onePushed: true,
+                    twoPushed: false
+                }
+            } else if (data.action == "button2") {
+                state = {
+                    onePushed: false,
+                    twoPushed: true
+                }
             }
-        } else if (data.action == "button2") {
-            state = {
-                onePushed: false,
-                twoPushed: true
-            }
+            io.in(data.room).emit('new state', state)
         }
-        io.in(data.room).emit('new state', state)
+        else if(data.GameTitle == "TTT"){
+            var board = io.sockets.adapter.rooms[data.room]['board']
+            board[data.Tile] = "x";
+            io.in(data.room).emit('TTT state', board);}
     });
-
 });
 
 // define the starting game state (should be sent to each client on logging in to game.)
@@ -160,3 +196,4 @@ var state = {
     onePushed: true,
     twoPushed: false
 }
+// for tic tac toe

@@ -108,5 +108,14 @@ export class HttpService {
     });
     return observable
   }
-
+  TTTstate(){
+    let observable = new Observable<{}>(observer => {
+      this.socket.on('TTT state', (state)=>{
+        console.log("TTT state here.");
+        observer.next(state);
+      });
+      return () => {this.socket.disconnect();}
+    });
+    return observable
+  }
 }
