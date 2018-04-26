@@ -34,6 +34,11 @@ h2 {
     color: #ececfc;
 }
 
+h3 {
+    display: inline-block;
+    color: #ececfc;
+}
+
 p {
     color: #ececfc;
 }
@@ -41,3 +46,33 @@ p {
 .rooms_list {
     overflow: scroll;
 }
+
+.card {
+    background-color: #ececfc27;
+    height: 100px;
+    width: 70px;
+    color: #ececfc;
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+#room_button {
+    height: 100px;
+    border: none;
+}
+
+#room_button:hover {
+    color: #007bff;
+    background-color: #ececfc27;
+}
+
+/* .btn-outline-primary:hover {
+    color: #007bff;
+    background-color: #ececfc27;
+}
+
+.btn-outline-primary:hover {
+    color: #007bff;
+    background-color: #ececfc27;
+} */
