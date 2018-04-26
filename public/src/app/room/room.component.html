@@ -30,6 +30,11 @@
                         <td id="256" (click)="move(256)">{{board[256]}}</td>
                     </tr>
                 </table>
+                <h1>Player Turn: {{board['Turn']}}</h1>
+                <div *ngIf="board['Winner']">
+                    <h1>Winner is: {{winner}}</h1>
+                    <button (click)="resetBoard()">Reset</button>
+                </div>
             </div>
         </div>
         <div>

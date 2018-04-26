@@ -118,4 +118,7 @@ export class HttpService {
     });
     return observable
   }
+  reset(reset){
+    this.socket.emit('reset', reset);
+  }
 }
