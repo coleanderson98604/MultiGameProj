@@ -28,28 +28,26 @@ export class ScoreboardComponent implements OnInit {
     let observable = this._http.getUsers();
     observable.subscribe(data => {
       console.log('users', data);
+      for(var i = 0; i < data['data'].length; i++){
+        data['data'][i]['KD'] = Math.floor((data['data'][i]['wins'] / data['data'][i]['played']) * 100)
+      }
       this.UserList = data['data'];
       this.UserList.sort(function(a,b){
         return a['wins'] < b['wins'];
       });
-      console.log(this.UserList)
     });
   }
   sortbyPercent(){
-    let observable = this._http.getUsers();
-    observable.subscribe(data => {
-      console.log('users', data);
-      this.UserList = data['data'];
       this.UserList.sort(function(a,b){
         if (!b['played']) {
           return false;
         } else if (!a['played']) {
           return true;
         } else {
-          return (a['wins']/a['played']) < (b['wins']/b['played']);
+          return (a['KD']) < (b['KD']);
         }
       });
       console.log(this.UserList)
-    })
+
   }
 }
