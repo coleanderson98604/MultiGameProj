@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreboardComponent implements OnInit {
-
   User: String;
   UserList = [];
   constructor(
@@ -33,18 +32,20 @@ export class ScoreboardComponent implements OnInit {
       }
       this.UserList = data['data'];
       this.UserList.sort(function(a,b){
-        return a['wins'] < b['wins'];
+        if(a['wins'] < b['wins']){
+          return 1
+        }
       });
     });
   }
   sortbyPercent(){
       this.UserList.sort(function(a,b){
         if (!b['played']) {
-          return false;
+          return -1;
         } else if (!a['played']) {
-          return true;
-        } else {
-          return (a['KD']) < (b['KD']);
+          return 1;
+        } else if(a['KD'] < b['KD']){
+          return 1;
         }
       });
       console.log(this.UserList)
