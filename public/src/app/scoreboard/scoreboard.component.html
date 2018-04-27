@@ -1,0 +1,16 @@
+<div class="container-fluid" id="background">
+    <div class="container-fluid" id="foreground">
+        <p>Welcome, {{User}}</p>
+        <div class="room_header">
+            <h2>Global Scoreboard</h2>
+            <hr>
+        </div>
+        <div class="row">
+            <h1 *ngFor="let users of UserList">
+                Username: {{users.username}}<span></span>
+                Wins: {{users.wins}}<span></span>
+                Games Played: {{users.played}}
+            </h1>
+        </div>
+    </div>
+</div>

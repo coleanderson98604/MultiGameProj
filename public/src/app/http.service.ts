@@ -108,5 +108,34 @@ export class HttpService {
     });
     return observable
   }
-
+  TTTstate(){
+    let observable = new Observable<{}>(observer => {
+      this.socket.on('TTT state', (state)=>{
+        console.log("TTT state here.");
+        observer.next(state);
+      });
+      return () => {this.socket.disconnect();}
+    });
+    return observable
+  }
+  reset(reset){
+    this.socket.emit('reset', reset);
+  }
+  showPlayer(username){
+    return this._http.get(`/player/${username}`);
+  
+  }
+  UserLoggedIn(){
+    let observable = new Observable<{}>(observer => {
+      this.socket.on('user logged', (data)=>{
+        console.log("this data", data);
+        observer.next(data);
+      })
+      return () => {this.socket.disconnect();}
+    })
+    return observable
+  }
+  UserInfo(data){
+    this.socket.emit('UserInfo', data)
+  }
 }
