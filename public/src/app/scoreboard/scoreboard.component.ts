@@ -40,10 +40,13 @@ export class ScoreboardComponent implements OnInit {
   sortbyPercent(){
       this.UserList.sort(function(a,b){
         if (!b['played']) {
-          return false;
+          return -1;
         } else if (!a['played']) {
-          return true;
+          return 1;
         } else {
+          if (a['KD']) < (b['KD']) {
+            return 1;
+          }
           return (a['KD']) < (b['KD']);
         }
       });
