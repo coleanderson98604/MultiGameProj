@@ -13,6 +13,7 @@ import { MainComponent } from './main/main.component';
 import { RoomComponent } from './room/room.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { GamesComponent } from './games/games.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { GamesComponent } from './games/games.component';
     MainComponent,
     RoomComponent,
     ScoreboardComponent,
-    GamesComponent
+    GamesComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

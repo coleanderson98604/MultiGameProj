@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  Input, Output, EventEmitter  } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
 
@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   submitLogin(form) {
     this._http.login(this.login).subscribe(data => {
       if(data['succeeded']){
+        this._http.UserInfo(this.login['username'])
         this._http.newSession(this.login['username']);
         this._router.navigate(['main']);
       } else {
