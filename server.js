@@ -122,11 +122,14 @@ io.sockets.on('connect', function(socket) {
         if(io.sockets.adapter.rooms[data.room]['length'] == 1){
             socket['player'] = 'X'
             socket['playerName'] = data.user
+            io.in(data.room).emit('new message', {user: 'SYSTEM', message: `${data.user} is X`})
         }
         else if(io.sockets.adapter.rooms[data.room]['length'] == 2){
             socket['player'] = 'O'
             socket['playerName'] = data.user
+            io.in(data.room).emit('new message', {user: 'SYSTEM', message: `${data.user} is O`})
         }
+        //initialize the board
         if (!io.sockets.adapter.rooms[data.room]['board']) {
             io.sockets.adapter.rooms[data.room]['board'] = 
             {
@@ -146,6 +149,14 @@ io.sockets.on('connect', function(socket) {
                 Winner: false
             }
         }
+        //initialize the lobby
+        if(!io.sockets.adapter.rooms[data.room]['Lobby']){
+            io.sockets.adapter.rooms[data.room]['Lobby'] = [];
+        }
+        if(!io.sockets.adapter.rooms[data.room]['Lobby'].includes(data.user)){
+            io.sockets.adapter.rooms[data.room]['Lobby'].push(data.user)
+        }
+        console.log(io.sockets.adapter.rooms[data.room]['Lobby'])
         var board = io.sockets.adapter.rooms[data.room]['board']
         console.log(io.sockets.adapter.rooms[data.room])
         //test info on server side
@@ -216,8 +227,13 @@ io.sockets.on('connect', function(socket) {
                     }
                     else {
                         console.log(player)
-                        player.play += 1
+                        player.played += 1
                     }
+                    player.save(function(err){
+                        if(err){
+                            console.log(err)
+                        }
+                    })
                 });
                 board['Turn'] = false
             }
@@ -230,7 +246,7 @@ io.sockets.on('connect', function(socket) {
                     else {
                         console.log(player)
                         player.wins += 1
-                        player.played += 1
+                        player.played += 1;
                     }
                     player.save(function(err){
                         if(err){
@@ -238,6 +254,24 @@ io.sockets.on('connect', function(socket) {
                         }
                     });
                 })
+                //this function pulls the other name from the lobby so we can update the play count
+                for(let i=0; i <  io.sockets.adapter.rooms[data.room]['Lobby'].length; i++){
+                    if(socket['playerName'] !=  io.sockets.adapter.rooms[data.room]['Lobby'][i]){
+                        User.findOne({username:  io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err,player){
+                            if(err){
+                                console.log('something went wrong')
+                            }
+                            else {
+                                player.played += 1;
+                            }
+                            player.save(function(err){
+                                if(err){
+                                    console.log(err)
+                                }
+                            })
+                        })
+                    }
+                }
                 board['Turn'] = false;
             }
             if(winning.includes(board['Oscore'])){
@@ -250,7 +284,30 @@ io.sockets.on('connect', function(socket) {
                         player.wins += 1
                         player.played += 1
                     }
+                    player.save(function(err){
+                        if(err){
+                            console.log(err)
+                        }
+                    })
                 });
+                //this function pulls the other name from the lobby so we can update the play count
+                for(let i=0; i <  io.sockets.adapter.rooms[data.room]['Lobby'].length; i++){
+                    if(socket['playerName'] !=  io.sockets.adapter.rooms[data.room]['Lobby'][i]){
+                        User.findOne({username:  io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err,player){
+                            if(err){
+                                console.log('something went wrong')
+                            }
+                            else {
+                                player.played += 1;
+                            }
+                            player.save(function(err){
+                                if(err){
+                                    console.log(err)
+                                }
+                            })
+                        })
+                    }
+                }
                 board['Turn'] = false;
             }
             socket.on('reset',function(data){

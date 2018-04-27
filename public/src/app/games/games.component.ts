@@ -23,5 +23,9 @@ export class GamesComponent implements OnInit {
       this._router.navigate(['login']);
     }
   }
-
+  join(user){
+    //calls the joinRoom function and passes in the user and room
+    this._http.joinRoom({user:this.User, room: this.User});
+    this._router.navigate(['room/' + user])
+  }
 }

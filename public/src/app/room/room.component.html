@@ -1,7 +1,7 @@
 <div class="container-fluid" id="background">
     <div class="container-fluid" id="foreground">
         <p>Welcome, {{ User }}</p>
-        <h2>{{ Room }}</h2>
+        <h2>Room Name: {{ Room }}</h2>
         <button *ngIf="!RoomJoin" type="button" class="btn btn-primary" (click)="leave()" id="leave">leave room</button>
         <div class="row">
             <div class="dialog-window col-6">
@@ -30,7 +30,7 @@
                         <td id="256" (click)="move(256)">{{board[256]}}</td>
                     </tr>
                 </table>
-                <h1>Player Turn: {{board['Turn']}}</h1>
+                <h1 *ngIf="board['Turn']">Player Turn: {{board['Turn']}}</h1>
                 <div *ngIf="board['Winner']">
                     <h1>Winner is: {{winner}}</h1>
                     <button (click)="resetBoard()">Reset</button>

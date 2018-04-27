@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ScoreboardComponent implements OnInit {
 
   User: String;
-
+  UserList = [];
   constructor(
     private _http: HttpService,
     private _router: Router
@@ -22,6 +22,14 @@ export class ScoreboardComponent implements OnInit {
     if (!this.User){
       this._router.navigate(['login']);
     }
+    this.Pullusers()
   }
-
+  Pullusers(){
+    let observable = this._http.getUsers();
+    observable.subscribe(data => {
+      console.log('users', data);
+      this.UserList = data['data'];
+      console.log(this.UserList)
+    })
+  }
 }

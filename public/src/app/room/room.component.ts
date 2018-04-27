@@ -75,6 +75,7 @@ export class RoomComponent implements OnInit {
   }
   resetBoard(){
     this._http.reset(this.Room);
+    this._http.sendMessage({user: 'SYSTEM', room: this.Room, message: "Game has been reset"});
   }
 
 }
