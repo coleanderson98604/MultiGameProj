@@ -90,6 +90,8 @@ export class HttpService {
 
   newSession(username){
     this.user = username;
+    localStorage.setItem('user', username);
+    console.log(localStorage)
   }
   getUsers(){
     return this._http.get('/users');
