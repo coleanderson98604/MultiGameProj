@@ -99,6 +99,21 @@ app.post('/login', function(req,res){
     });
 });
 
+// for User Profile
+
+app.get('/player/:username', function(req,res){
+    var username =req.params.username;
+    User.findOne({username:username}, function(err, person){
+        if(err){
+            console.log('cant find player', err)
+        }
+        else{
+            console.log('Player Found');
+            res.json({data:person});
+        }
+    })
+})
+
 app.all("*", (req,res,next) => {
     res.sendFile(path.resolve("./public/dist/index.html"))
 });
@@ -110,7 +125,9 @@ var server = app.listen(8000, function(){
 var io = require('socket.io').listen(server);
 io.sockets.on('connect', function(socket) {
     console.log('new connection made.')
-    
+    socket.on('UserInfo', function(data){
+        socket.emit('user logged', data )
+    })
     socket.on('roomCheck', function(){
         io.emit('rooms', io.sockets.adapter.rooms);
     })
@@ -338,4 +355,8 @@ var state = {
     twoPushed: false
 }
 // for tic tac toe
+<<<<<<< HEAD
 var winning = [7,56,448,73,146,292,273,84];
+=======
+var winning = [7,56,448,73,146,292,273,84];
+>>>>>>> TomBranch

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from './http.service';
+import { MainComponent } from './main/main.component';
+
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,13 @@ import { HttpService } from './http.service';
 })
 
 export class AppComponent {
+  user;
   title = 'app';
   constructor(private _http: HttpService){
+    this._http.UserLoggedIn().subscribe(data => {
+      console.log('it worked', data)
+      this.user = data});
+  }
+  ngOnInit(){
   }
 }

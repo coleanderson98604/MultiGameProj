@@ -5,6 +5,10 @@ import { MainComponent } from './main/main.component';
 import { RoomComponent } from './room/room.component';
 import { GamesComponent } from './games/games.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+<<<<<<< HEAD
+=======
+import { ProfileComponent } from './profile/profile.component';
+>>>>>>> TomBranch
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -12,6 +16,7 @@ const routes: Routes = [
   {path: 'games', component: GamesComponent},
   {path: 'scoreboard', component: ScoreboardComponent},
   {path: 'room/:RoomName', component: RoomComponent},
+  {path: 'user/:username', component: ProfileComponent},
   {path: '', pathMatch: 'full', redirectTo: '/login'},
   {path: '**', component: LoginComponent}
 ];
