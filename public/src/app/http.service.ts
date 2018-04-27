@@ -90,6 +90,8 @@ export class HttpService {
 
   newSession(username){
     this.user = username;
+    localStorage.setItem('user', username);
+    console.log(localStorage)
   }
   getUsers(){
     return this._http.get('/users');
@@ -121,9 +123,6 @@ export class HttpService {
   reset(reset){
     this.socket.emit('reset', reset);
   }
-<<<<<<< HEAD
-}
-=======
   showPlayer(username){
     return this._http.get(`/player/${username}`);
   
@@ -142,4 +141,3 @@ export class HttpService {
     this.socket.emit('UserInfo', data)
   }
 }
->>>>>>> TomBranch

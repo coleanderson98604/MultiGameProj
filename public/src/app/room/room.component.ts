@@ -21,7 +21,10 @@ export class RoomComponent implements OnInit {
     private _http: HttpService,
     private _router: Router,
     private _route: ActivatedRoute
-  ) { 
+  ) {
+    if(!this._http.user){
+      this._router.navigate(['main']);
+    }
     // leaves an open connection to notify when a user joins
     this._http.newUserJoined().subscribe(data=> this.messageArray.push(data))
     // leaves an open connection to notify when a user leaves

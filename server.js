@@ -163,7 +163,8 @@ io.sockets.on('connect', function(socket) {
                 Xscore: 0,
                 Oscore: 0,
                 moves: 0,
-                Winner: false
+                Winner: false,
+                Won: false,
             }
         }
         //initialize the lobby
@@ -236,116 +237,138 @@ io.sockets.on('connect', function(socket) {
                 }
             }
             //winning logic
-            if(board['moves'] == 9){
-                board['Winner'] = 'Tie';
-                User.findOne({username: socket['playerName']}, function(err, player){
-                    if(err){
-                        console.log('something went wrong')
-                    }
-                    else {
-                        console.log(player)
-                        player.played += 1
-                    }
-                    player.save(function(err){
-                        if(err){
-                            console.log(err)
-                        }
-                    })
-                });
-                board['Turn'] = false
-            }
+
+            // X wins
             if(winning.includes(board['Xscore'])){
                 board['Winner'] = socket['playerName']
-                User.findOne({username: socket['playerName']}, function(err, player){
-                    if(err){
-                        console.log('something went wrong')
-                    }
-                    else {
-                        console.log(player)
-                        player.wins += 1
-                        player.played += 1;
-                    }
-                    player.save(function(err){
+                console.log('the winner is', socket['playerName'])
+                board['Turn'] = false;
+                if(board['Turn'] == false && board['Won'] == false){
+                    User.findOne({username: socket['playerName']}, function(err, player){
                         if(err){
-                            console.log(err)
+                            console.log('something went wrong')
                         }
-                    });
-                })
-                //this function pulls the other name from the lobby so we can update the play count
-                for(let i=0; i <  io.sockets.adapter.rooms[data.room]['Lobby'].length; i++){
-                    if(socket['playerName'] !=  io.sockets.adapter.rooms[data.room]['Lobby'][i]){
-                        User.findOne({username:  io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err,player){
+                        else {
+                            console.log(player)
+                            player.wins += 1
+                            player.played += 1;
+                        }
+                        player.save(function(err){
                             if(err){
-                                console.log('something went wrong')
+                                console.log(err)
                             }
-                            else {
-                                player.played += 1;
-                            }
-                            player.save(function(err){
+                            board['Won'] = true
+                        });
+                    })
+                    //this function pulls the other name from the lobby so we can update the play count
+                    for(let i=0; i <  io.sockets.adapter.rooms[data.room]['Lobby'].length; i++){
+                        if(socket['playerName'] !=  io.sockets.adapter.rooms[data.room]['Lobby'][i]){
+                            User.findOne({username:  io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err,player){
                                 if(err){
-                                    console.log(err)
+                                    console.log('something went wrong')
                                 }
+                                else {
+                                    player.played += 1;
+                                }
+                                player.save(function(err){
+                                    if(err){
+                                        console.log(err)
+                                    }
+                                })
                             })
-                        })
+                        }
                     }
                 }
-                board['Turn'] = false;
             }
+            // O wins
             if(winning.includes(board['Oscore'])){
                 board['Winner'] = socket['playerName']
-                User.findOne({username: socket['playerName']}, function(err, player){
-                    if(err){
-                        console.log('something went wrong')
-                    }
-                    else {
-                        player.wins += 1
-                        player.played += 1
-                    }
-                    player.save(function(err){
+                console.log('the winner is', socket['playerName'])
+                board['Turn'] = false;
+                if(board['Turn'] == false && board['Won'] == false){   
+                    User.findOne({username: socket['playerName']}, function(err, player){
                         if(err){
-                            console.log(err)
+                            console.log('something went wrong')
                         }
-                    })
-                });
-                //this function pulls the other name from the lobby so we can update the play count
-                for(let i=0; i <  io.sockets.adapter.rooms[data.room]['Lobby'].length; i++){
-                    if(socket['playerName'] !=  io.sockets.adapter.rooms[data.room]['Lobby'][i]){
-                        User.findOne({username:  io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err,player){
+                        else {
+                            player.wins += 1
+                            player.played += 1
+                        }
+                        player.save(function(err){
+                            if(err){
+                                console.log(err)
+                            }
+                            board['Won'] = true
+                        })
+                    });
+                    //this function pulls the other name from the lobby so we can update the play count
+                    for(let i=0; i <  io.sockets.adapter.rooms[data.room]['Lobby'].length; i++){
+                        if(socket['playerName'] !=  io.sockets.adapter.rooms[data.room]['Lobby'][i]){
+                            User.findOne({username:  io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err,player){
+                                if(err){
+                                    console.log('something went wrong')
+                                }
+                                else {
+                                    player.played += 1;
+                                }
+                                player.save(function(err){
+                                    if(err){
+                                        console.log(err)
+                                    }
+                                })
+                            })
+                        }
+                    }
+                }
+            }
+            //Tie
+            if(board['moves'] == 9 && board['Winner'] == false){
+                board['Winner'] = 'Tie';
+                board['Turn'] = false
+                if(board['Turn'] == false && board['Won'] == false){
+                    for(let i = 0; i < 2; i++){
+                        User.findOne({username: io.sockets.adapter.rooms[data.room]['Lobby'][i]}, function(err, player){
                             if(err){
                                 console.log('something went wrong')
                             }
                             else {
-                                player.played += 1;
+                                console.log(player)
+                                player.played += 1
                             }
                             player.save(function(err){
                                 if(err){
                                     console.log(err)
                                 }
+                                board['Won'] = true
                             })
-                        })
+                        });
+                        console.log('it is a tie!!')
                     }
                 }
-                board['Turn'] = false;
             }
-            socket.on('reset',function(data){
-                io.sockets.adapter.rooms[data]['board'] = {
-                    1: "",
-                    2: "",
-                    4: "",
-                    8: "",
-                    16: "",
-                    32: "",
-                    64: "",
-                    128: "",
-                    256: "",
-                    Turn: 'X',
-                    Xscore: 0,
-                    Oscore: 0,
-                    moves: 0,
-                    Winner: false
-                }
-            })
             io.in(data.room).emit('TTT state', board);}
+    });
+    socket.on('reset',function(data){
+        io.sockets.adapter.rooms[data]['board'] = {
+            1: "",
+            2: "",
+            4: "",
+            8: "",
+            16: "",
+            32: "",
+            64: "",
+            128: "",
+            256: "",
+            Turn: 'X',
+            Xscore: 0,
+            Oscore: 0,
+            moves: 0,
+            Winner: false,
+            won: false,
+        }
+        console.log('reset', io.sockets.adapter.rooms[data]['board'])
+        var board = io.sockets.adapter.rooms[data]['board']
+        io.in(data).emit('TTT state', board)
     });
 });
 
@@ -356,7 +379,11 @@ var state = {
 }
 // for tic tac toe
 <<<<<<< HEAD
+<<<<<<< HEAD
 var winning = [7,56,448,73,146,292,273,84];
 =======
 var winning = [7,56,448,73,146,292,273,84];
 >>>>>>> TomBranch
+=======
+var winning = [7,56,448,73,146,292,273,84,457,295,79,484,93,465,372,279];
+>>>>>>> ColeBranch
