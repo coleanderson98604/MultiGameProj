@@ -2,8 +2,8 @@
   <div class="container">
     <div class="reg">
       <h1>Register</h1>
-      <!--Prevent page refresh on submit, call appropriate function.-->
-      <small *ngIf="registered">Registration succeeded.</small>
+      <small class="error" *ngIf="duplicate">User already exists.</small>
+      <small class="success" *ngIf="registered">Registration succeeded.</small>
       <form (ngSubmit)="register(registerForm)" #registerForm="ngForm">
         <div class="form-group">
           <label for="username">Username:</label>

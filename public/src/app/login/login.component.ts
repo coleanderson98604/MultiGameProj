@@ -11,6 +11,9 @@ export class LoginComponent implements OnInit {
   //user for new user, login for login attempt
   user: any;
   login: any;
+
+  //Keep track of errors in registration & login.
+  duplicate: Boolean = false;
   registered: Boolean = false;
   wrongLogin: Boolean = false;
 
@@ -33,9 +36,14 @@ export class LoginComponent implements OnInit {
     this._http.register(this.user).subscribe(data => {
       if(data['succeeded']){
         this.registered = true;
+        this.duplicate = false;
         form.reset();
       } else {
         this.registered = false;
+        if (data['status']['code'] == 11000) {
+          this.duplicate = true;
+        }
+        form.reset();
       }
     });
   }
