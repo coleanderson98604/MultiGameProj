@@ -5,10 +5,7 @@ import { MainComponent } from './main/main.component';
 import { RoomComponent } from './room/room.component';
 import { GamesComponent } from './games/games.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
-<<<<<<< HEAD
-=======
 import { ProfileComponent } from './profile/profile.component';
->>>>>>> TomBranch
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},

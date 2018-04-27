@@ -33,7 +33,7 @@
                 <h1 *ngIf="board['Turn']">Player Turn: {{board['Turn']}}</h1>
                 <div *ngIf="board['Winner']">
                     <h1>Winner is: {{winner}}</h1>
-                    <button (click)="resetBoard()">Reset</button>
+                    <button class="btn btn-primary" (click)="resetBoard()">Reset</button>
                 </div>
             </div>
         </div>

@@ -378,12 +378,5 @@ var state = {
     twoPushed: false
 }
 // for tic tac toe
-<<<<<<< HEAD
-<<<<<<< HEAD
-var winning = [7,56,448,73,146,292,273,84];
-=======
-var winning = [7,56,448,73,146,292,273,84];
->>>>>>> TomBranch
-=======
+
 var winning = [7,56,448,73,146,292,273,84,457,295,79,484,93,465,372,279];
->>>>>>> ColeBranch
