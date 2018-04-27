@@ -18,7 +18,7 @@
                         <td></td>
                         <td>{{user.username}}</td>
                         <td>{{user.wins}}</td>
-                        <td *ngIf="user.wins / user.played; else empty">{{user.wins / user.played * 100}}</td>
+                        <td *ngIf="user.wins / user.played; else empty">{{user.KD}}%</td>
                         <ng-template #empty><td>0</td></ng-template>
                     </tr>
                 </tbody>

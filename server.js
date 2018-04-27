@@ -222,17 +222,19 @@ io.sockets.on('connect', function(socket) {
             var board = io.sockets.adapter.rooms[data.room]['board']
             console.log(data)
             // if the board tile has a value greater than 0 then it is filled
+            
             if(board[data.Tile].length == 0){
-                board['moves'] += 1;
                 if(socket['player'] == board['Turn']){
                     board[data.Tile] = socket['player'];
                     if(board['Turn'] == 'X'){
                         board['Xscore'] += data.Tile;
                         board['Turn'] = 'O';
+                        board['moves'] += 1;
                     }
                     else if(board['Turn'] == 'O'){
                         board['Oscore'] += data.Tile;
                         board['Turn'] = 'X';
+                        board['moves'] += 1;
                     }
                 }
             }
@@ -378,5 +380,4 @@ var state = {
     twoPushed: false
 }
 // for tic tac toe
-
 var winning = [7,56,448,73,146,292,273,84,457,295,79,484,93,465,372,279];
